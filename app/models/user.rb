@@ -24,7 +24,15 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  has_many :meetings, dependent: :destroy
+  has_many :comments, dependent: :destroy    
     after_create :assign_default_role
+    def name
+      self.first_name
+    end
+    def username
+      self.first_name + self.last_name
+    end    
     def assign_default_role
       if User.count == 1
         self.add_role(:site_admin) if self.roles.blank?
@@ -34,4 +42,22 @@ class User < ApplicationRecord
         self.add_role(:customer) if self.roles.blank?
       end
     end  
+    def stripe_id
+      'asdf'
+    end
+    def card_brand
+      'asdf'
+    end    
+    def card_exp_month
+      'asdf'
+    end    
+    def card_exp_year
+      'asdf'
+    end    
+    def card_last4
+      'asdf'
+    end    
+
 end
+
+
